@@ -1,0 +1,25 @@
+#Note: The openai-python library support for Azure OpenAI is in preview.
+      #Note: This code sample requires OpenAI Python library version 1.0.0 or higher.
+import os
+from openai import AzureOpenAI
+
+
+client = AzureOpenAI(
+  azure_endpoint = "https://m-learns-openai.openai.azure.com/", 
+  api_key=os.getenv("AZURE_OPENAI_KEY"),  
+  api_version="2024-02-15-preview"
+)
+
+
+message_text = [{"role":"system","content":"You are an AI assistant that helps people find information."},{"role":"user","content":"What is artificial intelligence?"},{"role":"assistant","content":"Artificial intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think and learn like humans. It involves the development of computer systems capable of performing tasks that normally require human intelligence, such as speech recognition, decision-making, problem-solving, visual perception, and natural language processing. AI can be categorized into two types: narrow AI, which is designed to perform specific tasks, and general AI, which has the ability to understand, learn, and apply knowledge across a wide range of tasks."},{"role":"user","content":"How is it related to machine learning?"},{"role":"user","content":"Write three multiple choice questions based on the following text, indcating the correct answers.\n\nMost computer vision solutions are based on machine learning models that can be applied to visual input from cameras, videos, or images.*\n\n- Image classification involves training a machine learning model to classify images based on their contents. For example, in a traffic monitoring solution you might use an image classification model to classify images based on the type of vehicle they contain, such as taxis, buses, cyclists, and so on.*\n\n- Object detection machine learning models are trained to classify individual objects within an image, and identify their location with a bounding box. For example, a traffic monitoring solution might use object detection to identify the location of different classes of vehicle.*\n\n- Semantic segmentation is an advanced machine learning technique in which individual pixels in the image are classified according to the object to which they belong. For example, a traffic monitoring solution might overlay traffic images with \"mask\" layers to highlight different vehicles using specific colors."},{"role":"assistant","content":"1. What is the purpose of image classification in computer vision?\na) To identify the location of objects within an image\nb) To classify individual pixels in an image\nc) To classify images based on their contents\nd) To overlay traffic images with \"mask\" layers\n\nCorrect answer: c) To classify images based on their contents\n\n2. What is the purpose of object detection in computer vision?\na) To identify the location of objects within an image\nb) To classify individual pixels in an image\nc) To classify images based on their contents\nd) To overlay traffic images with \"mask\" layers\n\nCorrect answer: a) To identify the location of objects within an image\n\n3. What is the purpose of semantic segmentation in computer vision?\na) To identify the location of objects within an image\nb) To classify individual pixels in an image\nc) To classify images based on their contents\nd) To overlay traffic images with \"mask\" layers\n\nCorrect answer: b) To classify individual pixels in an image"}]
+
+completion = client.chat.completions.create(
+  model="m-learns-openai", # model = "deployment_name"
+  messages = message_text,
+  temperature=0,
+  max_tokens=500,
+  top_p=0.95,
+  frequency_penalty=0,
+  presence_penalty=0,
+  stop=None
+)
